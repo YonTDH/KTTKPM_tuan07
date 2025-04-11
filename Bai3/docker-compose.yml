@@ -4,24 +4,25 @@ services:
   mysql:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword  # Mật khẩu cho user root
-      MYSQL_DATABASE: mydb              # Tên database sẽ tạo ra khi khởi động container
-      MYSQL_USER: user                  # Username cho MySQL
-      MYSQL_PASSWORD: password          # Mật khẩu cho user
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
     ports:
-      - "3306:3306"                      # Map cổng 3306 của MySQL container với cổng 3306 trên host
+      - "3308:3306"
     volumes:
-      - mysql-data:/var/lib/mysql        # Lưu trữ dữ liệu MySQL trên host
+      - mysql-data:/var/lib/mysql
     restart: always
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     environment:
-      PMA_HOST: mysql                   # Tên của service MySQL (tên container MySQL trong Docker Compose)
-      PMA_USER: user                     # Username kết nối đến MySQL
-      PMA_PASSWORD: password             # Mật khẩu cho user
+      PMA_HOST: mysql             # Tên service mysql trong compose
+      PMA_PORT: 3306
+      PMA_USER: user              # Bạn có thể dùng 'user' hoặc 'root'
+      PMA_PASSWORD: password      # Tương ứng với MYSQL_PASSWORD bên trên
     ports:
-      - "8081:80"                        # Map cổng 8081 của host với cổng 80 của container PHPMyAdmin
+      - "8081:80"
     restart: always
 
 volumes:

@@ -1,0 +1,29 @@
+services:
+  mysql:
+    image: mysql:5.7
+    container_name: mysql_server
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  nodejs:
+    build: ./node-app
+    container_name: node_app
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_USER: testuser
+      DB_PASSWORD: testpass
+      DB_NAME: testdb
+    ports:
+      - "3000:3000"
+
+volumes:
+  mysql_data:
